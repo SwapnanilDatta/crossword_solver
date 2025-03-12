@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crossword Helper</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .form-group { margin-bottom: 15px; }
+        input[type="text"] { width: 100%; padding: 8px; margin-top: 5px; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        #solutions { margin-top: 20px; }
+        .solution { padding: 5px 10px; margin: 5px 0; background: #f8f9fa; }
+    </style>
+</head>
+<body>
+    <h1>Crossword Helper</h1>
+    <form method="POST">
+        <div class="form-group">
+            <label for="pattern">Pattern (use _ for unknown letters):</label>
+            <input type="text" id="pattern" name="pattern" value="{{ pattern }}" placeholder="h_ll_">
+        </div>
+        <div class="form-group">
+            <label for="clue">Clue (optional):</label>
+            <input type="text" id="clue" name="clue" value="{{ clue }}" placeholder="greeting expression">
+        </div>
+        <button type="submit">Find Words</button>
+    </form>
+
+    <div id="solutions">
+        {% if solutions %}
+            <h2>Found {{ solutions|length }} matches:</h2>
+            {% for word, score in solutions_with_scores %}
+                <div class="solution">
+                    <span class="word">{{ word }}</span>
+                    <span class="score">(Score: {{ "%.4f"|format(score) }})</span>
+                </div>
+            {% endfor %}
+        {% elif pattern %}
+            <p>No matches found.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
